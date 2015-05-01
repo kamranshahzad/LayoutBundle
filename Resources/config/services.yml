@@ -1,0 +1,32 @@
+
+parameters:
+  layout.theme.resolver.class: Kamran\LayoutBundle\Base\Build\Theme\ThemeResolver
+  layout.theme.twig.class: Kamran\LayoutBundle\Twig\Extension\ThemeExtension
+  layout.theme.helper.class: Kamran\LayoutBundle\Templating\Helper\ThemeHelper
+
+services:
+
+  # theme resolver
+  pi.theme_resolver:
+      class: %layout.theme.resolver.class%
+      arguments:
+        - "@router"
+        - "@pi.bridge_service_collector"
+
+
+  # templating helper
+  pi.layout_theme.helper:
+    class: %layout.theme.helper.class%
+    arguments:
+      - "@service_container"
+      - "@pi.bridge_service_collector"
+    tags:
+      - { name: templating.helper, alias: themehelper }
+
+  # twig
+  pi.layout_theme.twig:
+    class: %layout.theme.twig.class%
+    arguments:
+      - "@pi.layout_theme.helper"
+    tags:
+      - { name: twig.extension }
