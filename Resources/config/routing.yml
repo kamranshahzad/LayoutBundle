@@ -1,0 +1,7 @@
+
+
+
+blog:
+    resource: "@KamranAdsBuilderBundle/Controller"
+    type:     annotation
+

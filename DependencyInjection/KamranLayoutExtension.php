@@ -20,5 +20,11 @@ class KamranLayoutExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('http_kernel.yml');
+
+        $container->setParameter('kamran_layout._theme_bundle',$config['_theme_bundle']);
+        $container->setParameter('kamran_layout._theme_namespaces',$config['_theme_namespaces']);
+
     }
+
 }

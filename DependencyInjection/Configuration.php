@@ -12,6 +12,18 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('kamran_layout');
+
+        $rootNode
+            ->children()
+            ->scalarNode('_theme_bundle')->defaultValue('KamranThemeBundle')->end()
+            ->end();
+        $rootNode
+            ->children()
+            ->arrayNode('_theme_namespaces')
+            ->isRequired()
+            ->prototype('scalar')->end()
+            ->end();
+
         return $treeBuilder;
     }
 }

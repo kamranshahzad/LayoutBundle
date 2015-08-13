@@ -1,0 +1,22 @@
+
+
+parameters:
+  doorkeeper.layout_listener.class: Kamran\LayoutBundle\EventListener\LayoutListener
+
+services:
+
+  pi.bridge_layout.listener:
+    class: %doorkeeper.layout_listener.class%
+    arguments:
+      - "@http_kernel"
+      - "@templating"
+      - "@layout.theme_resolver"
+    calls:
+          - [ setContainer, [@service_container]]
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+      - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+      - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+      - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
+      - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 128 }

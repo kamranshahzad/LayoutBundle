@@ -1,32 +1,53 @@
-
 parameters:
-  layout.theme.resolver.class: Kamran\LayoutBundle\Base\Build\Theme\ThemeResolver
+  layout.theme.resolver.class: Kamran\LayoutBundle\Base\LayoutThemeResolver
+  layout.theme.builder.class: Kamran\LayoutBundle\Base\LayoutBuilder
+  layout.theme.template_renderer.class: Kamran\LayoutBundle\Base\LayoutTemplateRenderer
   layout.theme.twig.class: Kamran\LayoutBundle\Twig\Extension\ThemeExtension
-  layout.theme.helper.class: Kamran\LayoutBundle\Templating\Helper\ThemeHelper
+  layout.theme.templating.helper.class: Kamran\LayoutBundle\Templating\Helper\ThemeHelper
+  layout.theme.helper.class: Kamran\LayoutBundle\Helper\LayoutHelper
 
 services:
 
   # theme resolver
-  pi.theme_resolver:
-      class: %layout.theme.resolver.class%
-      arguments:
-        - "@router"
-        - "@pi.bridge_service_collector"
+  layout.theme_resolver:
+    class: %layout.theme.resolver.class%
+    arguments:
+      - "@layout.layout_builder"
 
+  #layout builder
+  layout.layout_builder:
+    class: %layout.theme.builder.class%
+    arguments:
+      - "@layout.template_renderer"
+      - "@service_container"
 
-  # templating helper
-  pi.layout_theme.helper:
-    class: %layout.theme.helper.class%
+  #theme renderer
+  layout.template_renderer:
+    class: %layout.theme.template_renderer.class%
     arguments:
       - "@service_container"
-      - "@pi.bridge_service_collector"
+      - "@security.context"
+
+  # templating helper
+  layout.layout_theme.templating.helper:
+    class: %layout.theme.templating.helper.class%
+    arguments:
+      - "@service_container"
+      - "@layout.template_renderer"
     tags:
       - { name: templating.helper, alias: themehelper }
 
   # twig
-  pi.layout_theme.twig:
+  layout.layout_theme.twig:
     class: %layout.theme.twig.class%
     arguments:
-      - "@pi.layout_theme.helper"
+      - "@layout.layout_theme.templating.helper"
     tags:
       - { name: twig.extension }
+
+  # bundle helper
+  layout.layout_theme.helper:
+      class: %layout.theme.helper.class%
+      arguments:
+            - "@service_container"
+
