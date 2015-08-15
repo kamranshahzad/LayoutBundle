@@ -1,0 +1,22 @@
+{
+    "name": "kamran/layout-bundle",
+    "type": "symfony-bundle",
+    "description": "Handle complex layouts in symfony",
+    "keywords": [ "layout", "theme", "bundle" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kamran Shahzad",
+            "email": "bleak.unseen@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "sensio/framework-extra-bundle": "~3.0,>=3.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "LayoutBundle\\": ""
+        }
+    }
+}
