@@ -49,7 +49,8 @@ new Kamran\LayoutBundle\KamranLayoutBundle();
 ```
 	[AppFrontBundle]->Resources->views->themes
 ```
-	* `themes` All themes will placed inside this directory
+
+	*  `themes` All themes will placed inside this directory
 
 
 How to use?
