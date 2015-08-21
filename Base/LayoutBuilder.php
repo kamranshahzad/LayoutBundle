@@ -58,7 +58,7 @@ class LayoutBuilder{
 
 
     /**
-     * layouts.xml parsed here and find suitable parent template
+     * Parsed layouts.xml, returns schama array
      * 
      *
      * @access public
@@ -72,6 +72,8 @@ class LayoutBuilder{
 
 
     /**
+     * Get matched templates from schema array
+     * 
      * @access public
      * @return mixed
      */
@@ -84,6 +86,8 @@ class LayoutBuilder{
 
 
     /**
+     *  Get schema array
+     *
      * @access public
      * @return mixed
      */
@@ -91,5 +95,4 @@ class LayoutBuilder{
         return $this->theme_template_schema;
     }
 
-
-}//$
+}

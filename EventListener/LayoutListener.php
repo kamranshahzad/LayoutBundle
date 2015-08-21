@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the LayoutBundle
+ *
+ * (c) KamranShahzad <http://www.kamranshahzad.github.io/>
+ *
+ * Available on github <https://github.com/kamranshahzad/LayoutBundle>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Kamran\LayoutBundle\EventListener;
 
@@ -19,7 +29,16 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
-
+/**
+ * Class LayoutListener
+ * @package Kamran\LayoutBundle\EventListener
+ *
+ * @author Kamran Shahzad <bleak.unseen@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/kamranshahzad/LayoutBundle
+ *
+ */
 class LayoutListener
 {
 
@@ -30,31 +49,61 @@ class LayoutListener
      */
     protected $kernel;
 
+
     /**
-     * @var \Symfony\Component\DependencyInjection\Container
+     * @var Container
      */
     protected $container;
-    private   $layoutThemeResolver;
+    
+
+    /**
+     * @var LayoutThemeResolver
+     */
+    private $layout_theme_resolver;
+    
+
+    /**
+     * @var TwigEngine
+     */
     protected $templating;
 
+    /**
+     * @param type HttpKernelInterface $http_kernel 
+     * @param type TwigEngine $templating 
+     * @param type $layoutThemeResolver 
+     * @return type
+     */
     public function __construct( HttpKernelInterface $http_kernel ,TwigEngine $templating , $layoutThemeResolver)
     {
         $this->kernel               = $http_kernel;
-        $this->layoutThemeResolver  = $layoutThemeResolver;
+        $this->layout_theme_resolver  = $layoutThemeResolver;
         $this->templating           = $templating;
     }
 
 
+    /**
+     * @param type \Symfony\Component\DependencyInjection\Container $container 
+     * @return type
+     */
     public function setContainer(\Symfony\Component\DependencyInjection\Container $container)
     {
         $this->container = $container;
     }
 
+
+    /**
+     * @return type
+     */
     public function getContainer()
     {
         return $this->container;
     }
 
+
+    /**
+     * @param type GetResponseEvent $event 
+     * @return type
+     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         if (HttpKernelInterface::MASTER_REQUEST === $event->getRequestType())  {
@@ -70,11 +119,11 @@ class LayoutListener
                 }
             }
 
-            $this->layoutThemeResolver->setUrlParams($routeUrl,$raw_urlRoute);
-            $this->layoutThemeResolver->setContainer($this->container);
+            $this->layout_theme_resolver->setUrlParams($routeUrl,$raw_urlRoute);
+            $this->layout_theme_resolver->setContainer($this->container);
 
-            $baseTemplate = $this->layoutThemeResolver->getCurrentLayoutTemplate();
-            $defaultLayouts = $this->layoutThemeResolver->getDefaultLayouts();
+            $baseTemplate = $this->layout_theme_resolver->getCurrentLayoutTemplate();
+            $defaultLayouts = $this->layout_theme_resolver->getDefaultLayouts();
 
             //echo($baseTemplate);
 
@@ -85,6 +134,10 @@ class LayoutListener
         }
     }
 
+    /**
+     * @param type FilterControllerEvent $event 
+     * @return type
+     */
     public function onKernelController(FilterControllerEvent $event)
     {
         if (!is_array($controller = $event->getController())) {
@@ -118,7 +171,10 @@ class LayoutListener
     }
 
 
-
+    /**
+     * @param type GetResponseForControllerResultEvent $event 
+     * @return type
+     */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $request = $event->getRequest();
@@ -148,18 +204,7 @@ class LayoutListener
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        /*echo('<pre>');
-        print_r($user->getRoles());
-        echo('</pre>');*/
-
-        // get permissions from db
-
-
-
-
         $parameters = array_merge(array('themes'=>$request->attributes->get('_parent_template')), $parameters);
-        //$parameters = array_merge( $parameters);
-
 
         if (!$request->attributes->get('_template_streamable')) {
             $event->setResponse($templating->renderResponse($template, $parameters));
@@ -171,46 +216,6 @@ class LayoutListener
             $event->setResponse(new StreamedResponse($callback));
         }
     }
+ 
 
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-
-    }
-
-    public function onKernelTerminate(PostResponseEvent $event)
-    {
-
-    }
-
-    public function onKernelException(GetResponseForExceptionEvent $event)
-    {
-        //Exceptions.html.twig
-
-
-        /*
-        $response = $this->templateEngine->render(
-            'TwigBundle:Exception:error500.html.twig',
-            array('status_text' => $event->getException()->getMessage())
-        );
-        $event->setResponse(new Response($response));
-        */
-
-
-        /*
-        $exception = $event->getException();
-        $response = new Response();
-
-        if ($exception instanceof HttpException) {
-            return;
-        }
-        */
-        //$exception->getMessage() . ' in: ' . $exception->getFile() . ':' . $exception->getLine();
-        /*$exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine(),
-            $exception->getTraceAsString()*/
-    }
-
-
-
-} //@
+} 

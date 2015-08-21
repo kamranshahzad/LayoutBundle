@@ -1,39 +1,85 @@
 <?php
 
+/*
+ * This file is part of the LayoutBundle
+ *
+ * (c) KamranShahzad <http://www.kamranshahzad.github.io/>
+ *
+ * Available on github <https://github.com/kamranshahzad/LayoutBundle>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Kamran\LayoutBundle\Base;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\SecurityContext;
 
 
+/**
+ * Class LayoutTemplateRenderer
+ * @package Kamran\LayoutBundle\Base
+ *
+ * @author Kamran Shahzad <bleak.unseen@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/kamranshahzad/LayoutBundle
+ *
+ */
 class LayoutTemplateRenderer{
 
-    private $info;
+    
+    /**
+     * @var ContainerInterface
+     */
     private $container;
+    
+
+    /**
+     * @var array()
+     */
     private $inline_blocks_array;
+    
+
+    /**
+     * @var array()
+     */
     private $regions_array;
-    private $_currentUrl;
-    private $_context;
+    
 
-    public function __construct( ContainerInterface $_container , SecurityContext $context ){
-        $this->container = $_container;
-        $this->_context = $context;
+    /**
+     * @var string
+     */
+    private $current_url;
+    
+
+    /**
+     * @param type ContainerInterface $_container 
+     */
+    public function __construct( ContainerInterface $container ){
+        $this->container = $container;
     }
 
-    public function setInfo($info){
-        $this->info = $info;
-    }
 
 
+    /**
+     * LayoutBuilder will set current url
+     * @param type $currentUrl 
+     * @return type
+     */
     public function setCurrentUrlParams($currentUrl){
-        $this->_currentUrl = $currentUrl;
+        $this->current_url = $currentUrl;
         $this->getBundleLayoutConfigs();
     }
 
-    /*
-     *  Render theme region and blocks
-     * */
 
+    /**
+     * Render inline blocks directly in theme templates
+     * 
+     * @param type $block_id 
+     * @return type
+     */
     public function renderInlineBlock($block_id){
         if(array_key_exists( $block_id , $this->inline_blocks_array )){
             $region_template = '';
@@ -55,6 +101,14 @@ class LayoutTemplateRenderer{
         }
     }
 
+
+
+    /**
+     * Merge blocks into a region and returned a region template
+     * 
+     * @param type $region_id 
+     * @return type
+     */
     public function renderRegions($region_id){
         $region_array = $this->regions_array[$region_id];
         if(count($region_array) > 0){
@@ -75,62 +129,14 @@ class LayoutTemplateRenderer{
             }
             return $region_template;
         }
-
-
-
-        /*
-        $currentRoles = array();
-
-        $urlArray = array_filter(explode('/',$this->_currentUrl));
-        $urlString = ( array_key_exists(1 ,$urlArray)) ? $urlArray[1] : '';
-
-        $regionArray = $this->_regions[$regionId];
-        if(count($regionArray) > 0){
-            $regionTemplate = '';
-            foreach($regionArray as $block => $blockInfo){
-                $template = array_key_exists('template',$blockInfo) ? $blockInfo['template']: '';
-                $templateFile = $blockInfo['bundle'].'::blocks/'.$template;
-                if ( $this->container->get('templating')->exists($templateFile) ) {
-                    $endpointData = array();
-                    if($blockInfo['callPoint'] != ''){
-                        $callPoint = explode('::',$blockInfo['callPoint']);
-                        if(class_exists($callPoint[0])){
-                            $endpointData = call_user_func( array( $callPoint[0] , $callPoint[1]));
-                        }
-                    }
-                    if(array_key_exists('rule',$blockInfo)){
-                        if('/'.$urlString == $blockInfo['rule']) {
-                            //$regionTemplate .= $this->container->get('templating')->render($templateFile, $endpointData);
-                            if(array_key_exists('role',$blockInfo)){
-                                if(in_array($blockInfo['role'] , $currentRoles )){
-                                    $regionTemplate = $this->container->get('templating')->render( $templateFile , $endpointData);
-                                }
-                            }else{
-                                $regionTemplate = $this->container->get('templating')->render( $templateFile , $endpointData);
-                            }
-                        }
-                    }else {
-                        if(array_key_exists('role',$blockInfo)){
-                            if(in_array($blockInfo['role'] , $currentRoles )){
-                                $regionTemplate = $this->container->get('templating')->render( $templateFile , $endpointData);
-                            }
-                        }else{
-                            $regionTemplate = $this->container->get('templating')->render( $templateFile , $endpointData);
-                        }
-                    }
-                }
-            }
-            return $regionTemplate;
-        }
-        */
-    }
-
-    function remove_trailing_slashes( $url )
-    {
-        return rtrim($url, '/');
     }
 
 
+    /**
+     * Collect [BundleName]_layouts.xml files from bundles, parsed it to get blocks to add in regions.
+     * 
+     * @return type
+     */
     public function getBundleLayoutConfigs(){
 
         $layout_files_array = $this->container->get('layout.layout_theme.helper')->getBundlesLayouts();
@@ -173,7 +179,6 @@ class LayoutTemplateRenderer{
             }
         }
 
-
     }
 
-}//@
+}

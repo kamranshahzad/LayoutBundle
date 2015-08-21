@@ -26,7 +26,6 @@ services:
     class: %layout.theme.template_renderer.class%
     arguments:
       - "@service_container"
-      - "@security.context"
 
   # templating helper
   layout.layout_theme.templating.helper:

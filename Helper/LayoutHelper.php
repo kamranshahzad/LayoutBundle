@@ -1,23 +1,54 @@
 <?php
 
+/*
+ * This file is part of the LayoutBundle
+ *
+ * (c) KamranShahzad <http://www.kamranshahzad.github.io/>
+ *
+ * Available on github <https://github.com/kamranshahzad/LayoutBundle>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Kamran\LayoutBundle\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
+/**
+ * Class LayoutHelper
+ * @package Kamran\LayoutBundle\Base
+ *
+ * @author Kamran Shahzad <bleak.unseen@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 1.0
+ * @link     https://github.com/kamranshahzad/LayoutBundle
+ *
+ */
 class LayoutHelper{
 
+
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
-    public function __construct( ContainerInterface $_container ){
-        $this->container = $_container;
+
+    /**
+     * @param type ContainerInterface $container 
+     */
+    public function __construct( ContainerInterface $container ){
+        $this->container = $container;
         $this->webDirectory    = realpath($this->container->get('kernel')->getRootDir() . '/../web');
         $this->rootDirectory   = $this->container->get('kernel')->getRootDir();
     }
 
 
-    /*
-     * get theme bundle path from config.yml
+    /**
+     * get theme bundle path from config.ymlDescription
+     * 
+     * @return string
      */
     public function getThemeBundlePath(){
         $kernel = $this->container->get('kernel');
@@ -26,18 +57,22 @@ class LayoutHelper{
     }
 
 
-    /*
-     *  get theme bundle ... where all themes placed
-     * */
+    /**
+     * Get theme bundle
+     * 
+     * @return type
+     */
     public function getThemeBundle(){
         return $this->container->getParameter('kamran_layout._theme_bundle');
     }
 
 
-    /*
-     *  get theme layout.xml file from active bundle
-     *
-     * */
+
+    /**
+     * Get theme layout.xml
+     * 
+     * @return string
+     */
     public function getLayoutXml(){
         return join(
             DIRECTORY_SEPARATOR,
@@ -46,10 +81,11 @@ class LayoutHelper{
     }
 
 
-
-    /*
+    /**
      * collect active themes from layouts.xml
-     * */
+     * 
+     * @return array()
+     */
     public function getActiveThemes(){
         $layout_xml = $this->getLayoutXml();
         if(file_exists($layout_xml)) {
@@ -63,9 +99,13 @@ class LayoutHelper{
 
     }
 
-    /*
-     *
-     * */
+
+    /**
+     * Match url route with theme template rules
+     * 
+     * @param type $raw_url_route 
+     * @return array()
+     */
     public function matchLayoutXmlUrls($raw_url_route){
         $layout_xml = $this->getLayoutXml();
         if(file_exists($layout_xml)) {
@@ -110,17 +150,11 @@ class LayoutHelper{
     }
 
 
-    /*
-     *  create & update assets in web directory
-     * */
-    public function copyAssetsInWeb(){
-
-    }
-
-
-    /*
+    /**
      * collect bundles [bundlename]_layout.xml files from specific namespaces
-     * */
+     * 
+     * @return array()
+     */
     public function getBundlesLayouts(){
         $theme_bundle_namespaces = $this->container->getParameter('kamran_layout._theme_namespaces');
         if(count($theme_bundle_namespaces) > 0){
