@@ -1,5 +1,4 @@
 # LayoutBundle
-===================
 
 
 ## Description:
@@ -31,10 +30,16 @@ Add the KamranLayoutBundle to your AppKernel.php file:
 ```
 new Kamran\LayoutBundle\KamranLayoutBundle();
 ```
-Done.
 
 
 ## Configurations.
+
+1. Configure the `kamran_layout` service in your config:
+	
+		# application/config/config.yml
+			kamran_layout:
+    			_theme_bundle: 'AppFrontBundle'
+    			_theme_namespaces: ['App','Systems']
 
 
 
@@ -143,4 +148,4 @@ This software is licensed under the MIT license. See the complete license file i
 ```
 Resources/meta/LICENSE
 ```
-[Read the License]()
+[Read the License](https://github.com/kamranshahzad/LayoutBundle/blob/master/Resources/meta/LICENSE)
