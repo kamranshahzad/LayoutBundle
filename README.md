@@ -45,12 +45,14 @@ new Kamran\LayoutBundle\KamranLayoutBundle();
 	* `_theme_namespaces` : Add bundles namespaces for collect blocks for theme regions
 
 2. The themes directories will placed in AppFrontBundle. Here is directory tree.
+	
+	* `themes` All themes will placed inside this directory
 
 ```
 	[AppFrontBundle]->Resources->views->themes
 ```
 
-	*  `themes` All themes will placed inside this directory
+	
 
 
 How to use?
