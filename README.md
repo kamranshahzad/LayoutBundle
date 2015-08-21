@@ -1,24 +1,42 @@
 # LayoutBundle
 ===================
 
-LayoutBundle using symfony2
 
-Installation
-------------
+## Description:
+
+LayoutBundle help users to build layout fast and provides the support for fully customized multi-themes.
+This bundle provides the region and blocks to build compact layout.
+
+## Features.
+
+LayoutBundle Provides the following features:
+
+1. Regions and blocks supported
+2. Xml based layout config file
+3. Multi-theme supported
+4. Inline block support
+5. Fully extendable
+
+
+
+## Installation.
 
 Using composer
 
+``` bash
+$ composer require kamran/layout-bundle dev-master
 ```
-	composer require kamran/layout-bundle dev-master
+Add the KamranLayoutBundle to your AppKernel.php file:
 
 ```
-Then add in AppKernel.php
-
-``` php
-// ...other bundles ...
-$bundles[] = new Kamran\LayoutBundle\KamranLayoutBundle();
+new Kamran\LayoutBundle\KamranLayoutBundle();
 ```
 Done.
+
+
+## Configurations.
+
+
 
 
 How to use?
@@ -81,23 +99,28 @@ If you assign any role to a block like ROLE_ADMIN that means this block is only 
 
 
 
-Learning Links:
-------------------------------------
+## Learning Links:
+
+1. [Concept behind LayoutBundle](http://kamranshahzad.github.io/blog/the-concept-behind-layoutbundle.html)
 
 
 
+## Todo list.
 
-Todo list:
-------------------------------------
-** Assets management
-** Custom and customizedable Header and footer
-** Roles and Permissions
-** Dashboard
-** Dynamic Titles
-** Meta tags
-** Share Tags
-** Covert Commands
+1. Theme assets management
+2. Custom and customizedable/extendable header and footer
+3. User roles and permissions
+4. Dashboard/Widgets
+5. Dynamic head titles
+6. Head meta tags
+7. Head share tags
+8. Helper commands
 
+
+## Reporting an issue or feature request.
+
+Issues and feature requests are tracked in the 
+[Github issue tracker](https://github.com/kamranshahzad/LayoutBundle/issues).
 
 
 How to contribute?
@@ -114,8 +137,10 @@ here is the theme directory structure.
 ->[ThemeBundle]->Resources->views->themes
 
 
-Twig
---------------
 
-``` twig
+## License.
+This software is licensed under the MIT license. See the complete license file in the bundle:
 ```
+Resources/meta/LICENSE
+```
+[Read the License]()
