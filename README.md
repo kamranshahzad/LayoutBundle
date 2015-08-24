@@ -178,6 +178,48 @@ Let's suppose, you have more than one theme. This is the way how you implement t
 </themes>    
 ```
 
+## Themes Templates
+
+In your themes you can define parent templates using url rules which you define in `layouts.xml` file.
+Here is a simple theme parent template:
+
+```
+    [AnyBundle]->Resources->views->themes->bluestar->default.html.twig
+```
+
+```twig
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <title>Themes default page</title>
+</head>
+<body>
+
+    <!--body-->
+    {% block body %}{% endblock %}
+    <!--@body-->
+
+</body>
+</html>
+```
+
+Theme parent template is ready, now you need to implement this template with your project. 
+For this you need to add this line in your child template :
+
+```twig
+{% extends themes %}
+
+{% block body %}
+    .... child content
+{% endblock %}
+
+```
+
+
+
+
+
+
 
 
 
