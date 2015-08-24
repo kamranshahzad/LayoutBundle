@@ -17,6 +17,17 @@ LayoutBundle Provides the following features:
 5. Fully extendable
 
 
+## Todo list.
+
+1. Theme assets management
+2. Custom and customizedable/extendable header and footer
+3. User roles and permissions
+4. Dashboard/Widgets
+5. Dynamic head titles
+6. Head meta tags
+7. Head share tags
+8. Helper commands
+
 
 ## Installation.
 
@@ -46,13 +57,56 @@ new Kamran\LayoutBundle\KamranLayoutBundle();
 
 2. The themes directories will placed in AppFrontBundle. Here is directory tree.
 	
-	* `themes` All themes will placed inside this directory
+	* `themes` All themes will place inside this directory
 
 ```
 	[AppFrontBundle]->Resources->views->themes
 ```
 
-	
+
+## Themes Configuration file
+
+For handling themes you need to create a theme configuration file with name of 'layouts.xml' inside
+`themes` directory:
+
+```
+    [AppFrontBundle]->Resources->views->themes->layouts.xml
+```
+
+In `layouts.xml` file you can define your theme rules. Here is the structure of `layouts.xml` file:
+
+```xml
+<themes>
+    <theme name="bluestar">
+        <layouts url="/" template="default.html.twig" >
+            <templates>
+                <index url="/" template="front.html.twig"></index>
+                <about url="/about" template="content.html.twig" ></about>
+                <terms url="/terms-and-conditions" template="content.html.twig"></terms>
+            </templates>
+        </layouts>
+    </theme>
+</themes>    
+```
+
+1. `<themes>` : This is main tag of layouts.xml file
+2. `<theme>`  : This tag have one attribute that is theme name, like
+    
+    ```
+        [AppFrontBundle]->Resources->views->themes->bluestar
+    ```
+3. `<layouts>` : This tag have two attributes:
+    * `url`: This attribute defines the prefix of url like '/', this means all root level urls will go inside this tag.
+    * `template`: This is the default template from your theme, if we leave to define the template attribute blow, your theme will use default template.     
+4. `<templates>` : All url rules will come inside this tag.
+    * `<any_unique_tagname>` : This tag is url rule for your theme template, it have two attributes:
+        * `url` : Your url
+        * `template` : template will used for defined url
+
+         
+
+
+
 
 
 How to use?
@@ -115,22 +169,9 @@ If you assign any role to a block like ROLE_ADMIN that means this block is only 
 
 
 
-## Learning Links:
+## Usefull links:
 
 1. [Concept behind LayoutBundle](http://kamranshahzad.github.io/blog/the-concept-behind-layoutbundle.html)
-
-
-
-## Todo list.
-
-1. Theme assets management
-2. Custom and customizedable/extendable header and footer
-3. User roles and permissions
-4. Dashboard/Widgets
-5. Dynamic head titles
-6. Head meta tags
-7. Head share tags
-8. Helper commands
 
 
 ## Reporting an issue or feature request.
@@ -143,13 +184,6 @@ How to contribute?
 ------------------------------------
 The contribution for this bundle for public is open, anybody could help me to participate 
 bugs, documentation and code.
-
-
-
-ThemeBundle
---------------
-
-->[ThemeBundle]->Resources->views->themes
 
 
 
