@@ -89,7 +89,7 @@ In `layouts.xml` file you can define your theme rules. Here is the structure of 
 </themes>    
 ```
 
-1. `<themes>` : This is main tag of layouts.xml file
+1. `<themes>` : This is main tag of layouts.xml file. All themes will wrap in this tag.
 2. `<theme>`  : This tag have one attribute that is theme name, like
     
     ```
@@ -97,13 +97,90 @@ In `layouts.xml` file you can define your theme rules. Here is the structure of 
     ```
 3. `<layouts>` : This tag have two attributes:
     * `url`: This attribute defines the prefix of url like '/', this means all root level urls will go inside this tag.
-    * `template`: This is the default template from your theme, if we leave to define the template attribute blow, your theme will use default template.     
+    * `template`: This is the default template from your theme, if you leave to define the template attribute blow, your theme will use default template.     
 4. `<templates>` : All url rules will come inside this tag.
     * `<any_unique_tagname>` : This tag is url rule for your theme template, it have two attributes:
         * `url` : Your url
         * `template` : template will used for defined url
 
-         
+
+#### Nested Urls in layouts.xml
+
+Here are example layouts.xml file for nested urls
+
+```xml
+<themes>
+    <theme name="bluestar">
+        <layouts url="/" template="default.html.twig" >
+            <templates>
+                <login url="/login"></login>
+                <dashboard url="/" template="dashboard.html.twig"></dashboard>
+                <contact url="/contact" template="contact.html.twig" >
+                    <templates>
+                        <add url="/add"></add>
+                        <edit url="/modify" ></edit>
+                        <search url="/search">
+                            <templates>
+                                <show url="/show"></show>
+                            </templates>
+                        </search>
+                        <remove url="/remove" ></remove>
+                    </templates>
+                </contact>
+                <help url="/help"></help>
+            </templates>
+        </layouts>
+    </theme>
+</themes>    
+```
+
+#### Use multiple themes 
+
+Let's suppose, you have more than one theme. This is the way how you implement these themes.
+
+```
+    [AppFrontBundle]->Resources->views->themes->bluestar_frontend
+    [AppFrontBundle]->Resources->views->themes->bluestar_backend
+```
+
+```xml
+<themes>
+    <theme name="bluestar_frontend">
+        <layouts url="/" template="default.html.twig" >
+            <templates>
+                <index url="/" template="front.html.twig"></index>
+                <about url="/about" template="content.html.twig" ></about>
+                <terms url="/terms-and-conditions" template="content.html.twig"></terms>
+            </templates>
+        </layouts>
+    </theme>
+    <theme name="bluestar_backend">
+        <layouts url="/administrator" template="default.html.twig" >
+            <templates>
+                <login url="/login"></login>
+                <dashboard url="/" template="dashboard.html.twig"></dashboard>
+                <contact url="/contact" template="contact.html.twig" >
+                    <templates>
+                        <add url="/add"></add>
+                        <edit url="/modify" ></edit>
+                        <search url="/search">
+                            <templates>
+                                <show url="/show"></show>
+                            </templates>
+                        </search>
+                        <remove url="/remove" ></remove>
+                    </templates>
+                </contact>
+                <help url="/help"></help>
+            </templates>
+        </layouts>
+    </theme>
+</themes>    
+```
+
+
+
+
 
 
 
