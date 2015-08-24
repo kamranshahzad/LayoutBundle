@@ -216,9 +216,108 @@ For this you need to add this line in your child template :
 ```
 
 
+## Template Regions & Blocks
+
+A theme templates may have many regions and inline blocks. Region is the collection of blocks. 
+In `layouts.xml` file you defined all regions which you want to use in your theme template.
+
+
+#### Define regions in layouts.xml
+
+```xml
+<themes>
+    <theme name="undp_frontend">
+        <layouts url="/" template="main-default.html.twig" >
+            <regions>
+                <sidebar></sidebar>
+                <header></header>
+            </regions>
+            <templates>
+                <index url="/" template="front.html.twig"></index>
+                <about url="/about"></about>
+                <terms url="/terms-and-conditions"></terms>
+            </templates>
+        </layouts>
+    </theme>
+</themes>    
+```
+
+`<regions>` : All regions will define in this tag.
+    * `<unique_regionname>` : Define regions
 
 
 
+#### Use regions in template file
+
+```twig
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <title>Theme template</title>
+</head>
+<body>
+
+<div class="header">
+    {{ region('header') }}
+</div>
+
+<div class="left">
+    {{ region('sidebar') }}
+</div>
+
+<div class="content">
+    <!--body-->
+    {% block body %}{% endblock %}
+    <!--@body-->
+</div>
+
+</body>
+</html>
+```
+
+
+#### Add blocks in regions
+
+In different bundles you can create any number of blocks for theme regions.
+
+1. Every bundle which share blocks & inline blocks with themes, thats need to create a 
+sub configuration file. Here is the pattern for creating sub configuration file
+    * `[bundlename]_layout.xml` : The file name starts with bundlename as prefix. Use lowercase letter for file name.
+
+    ```
+        [FrontBundle]->Resources->views->config->[frontbundle]_layout.xml
+    ```
+
+2. Here is the structure of '[frontbundle]_layout.xml' file.
+
+```xml
+<layout>
+    <regions>
+        <header>
+            <logo template="logo.html.twig"></logo>
+            <topmenu template="topmenu.html.twig"></topmenu>
+        </header>
+        <sidebar>
+            <sidemenu template="sidemenu.html.twig"></sidemenu>
+        </sidebar>
+    </regions>
+</layout>    
+```
+
+3. Create blog template file: All block template are placed in blocks directory.
+    
+    ```
+        [FrontBundle]->Resources->views->blocks->logo.html.twig
+        [FrontBundle]->Resources->views->blocks->topmenu.html.twig
+        [FrontBundle]->Resources->views->blocks->sidemenu.html.twig
+    ```
+    block template example:
+
+    ```twig
+        <div class="topmenu">
+            .... block content
+        </div>    
+    ```
 
 
 
