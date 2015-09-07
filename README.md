@@ -3,30 +3,31 @@
 
 ## Description:
 
-LayoutBundle help users to build layout fast and provides the support for fully customized multi-themes.
-This bundle provides the region and blocks to build compact layout.
+LayoutBundle help users build layout with pace and provide support for fully customized multi-themes.
+This bundle provide regions(header, footer, sidebar) and blocks to build compact layout.
+this bundle provide all components necesssary for layout building e.g : Regions (Header, Footer, Sidebar) and Blocks
 
 ## Features.
 
 LayoutBundle Provides the following features:
 
-1. Regions and blocks supported
+1. Regions and blocks
 2. Xml based layout config file
-3. Multi-theme supported
-4. Inline block support
-5. Fully extendable
+3. Multi-theme 
+4. Inline blocks
+5. Fully customizable
 
 
 ## Todo list.
 
 1. Theme assets management
-2. Custom and customizedable/extendable header and footer
-3. User roles and permissions
+2. Fully customizable header and footer
+3. Role/permission base layout
 4. Dashboard/Widgets
-5. Dynamic head titles
-6. Head meta tags
-7. Head share tags
-8. Helper commands
+5. Dynamic Page titles
+6. Meta tags, Meta keywords, Meta Description
+7. Social Media sharing tags
+8. Quick Guide (commands list)
 
 
 ## Installation.
@@ -45,7 +46,7 @@ new Kamran\LayoutBundle\KamranLayoutBundle();
 
 ## Configurations.
 
-1. Configure the `kamran_layout` service in your config:
+1. Add the `kamran_layout` service in symfony config:
 	
 		# application/config/config.yml
 			kamran_layout:
@@ -56,11 +57,11 @@ new Kamran\LayoutBundle\KamranLayoutBundle();
 	* `_theme_namespaces` : Add bundles namespaces for collect blocks for theme regions
 
 2. The themes directories will placed in AppFrontBundle. Here is directory tree.
-	
-	* `themes` All themes will place inside this directory
+Now create a themes directory in anyone of your bundle as specified below	
+	* `themes` All themes will be placed inside this directory
 
 ```
-	[AppFrontBundle]->Resources->views->themes
+	[YourBundleName]->Resources->views->themes
 ```
 
 
@@ -70,7 +71,7 @@ For handling themes you need to create a theme configuration file with name of '
 `themes` directory:
 
 ```
-    [AppFrontBundle]->Resources->views->themes->layouts.xml
+    [YourBundleName]->Resources->views->themes->layouts.xml
 ```
 
 In `layouts.xml` file you can define your theme rules. Here is the structure of `layouts.xml` file:
@@ -89,19 +90,19 @@ In `layouts.xml` file you can define your theme rules. Here is the structure of 
 </themes>    
 ```
 
-1. `<themes>` : This is main tag of layouts.xml file. All themes will wrap in this tag.
-2. `<theme>`  : This tag have one attribute that is theme name, like
+1. `<themes>` : This is main tag of layouts.xml file. All theme tags be will wrapped in this tag. so we can have multiple themes in this layout configuration file
+2. `<theme>`  : Every theme will be wrapped inside its own theme tag
     
     ```
-        [AppFrontBundle]->Resources->views->themes->bluestar
+        [YourBundleName]->Resources->views->themes->bluestar
     ```
-3. `<layouts>` : This tag have two attributes:
+3. `<layouts>` : Inside every theme there is a layout tag. This tag has two attributes.
     * `url`: This attribute defines the prefix of url like '/', this means all root level urls will go inside this tag.
-    * `template`: This is the default template from your theme, if you leave to define the template attribute blow, your theme will use default template.     
-4. `<templates>` : All url rules will come inside this tag.
-    * `<any_unique_tagname>` : This tag is url rule for your theme template, it have two attributes:
-        * `url` : Your url
-        * `template` : template will used for defined url
+    * `template`: This is the default template for your theme, if you leave this attribute blank then default template will be used.     
+4. `<templates>` : templates tag contains all url rules tag.
+    * `<any_unique_tagname>` : This tag will be a unique, it will have two attributes:
+        * `url` : This url can be prefix or page url
+        * `template` : The defined template name will be used. If left blank it will inherit template from parent tag
 
 
 #### Nested Urls in layouts.xml
@@ -136,11 +137,11 @@ Here are example layouts.xml file for nested urls
 
 #### Use multiple themes 
 
-Let's suppose, you have more than one theme. This is the way how you implement these themes.
+If you want to implement more then one theme follow the syntax below.
 
 ```
-    [AppFrontBundle]->Resources->views->themes->bluestar_frontend
-    [AppFrontBundle]->Resources->views->themes->bluestar_backend
+    [YourBundleName]->Resources->views->themes->bluestar_frontend
+    [YourBundleName]->Resources->views->themes->bluestar_backend
 ```
 
 ```xml
@@ -180,11 +181,11 @@ Let's suppose, you have more than one theme. This is the way how you implement t
 
 ## Themes Templates
 
-In your themes you can define parent templates using url rules which you define in `layouts.xml` file.
+In your themes you must define parent template using url rules. This parent template is defined in `layouts.xml` file.
 Here is a simple theme parent template:
 
 ```
-    [AnyBundle]->Resources->views->themes->bluestar->default.html.twig
+    [YourBundleName]->Resources->views->themes->bluestar->default.html.twig
 ```
 
 ```twig
@@ -204,7 +205,7 @@ Here is a simple theme parent template:
 ```
 
 Theme parent template is ready, now you need to implement this template with your project. 
-For this you need to add this line in your child template :
+Now add this line in your child template :
 
 ```twig
 {% extends themes %}
@@ -218,8 +219,8 @@ For this you need to add this line in your child template :
 
 ## Template Regions & Blocks
 
-A theme templates may have many regions and inline blocks. Region is the collection of blocks. 
-In `layouts.xml` file you defined all regions which you want to use in your theme template.
+A theme templates may have many regions(Header, Footer, Sidebar) and inline blocks. Region is collection of blocks. 
+All regions that are to be used in theme are defined in `layouts.xml` file.
 
 
 #### Define regions in layouts.xml
@@ -242,7 +243,7 @@ In `layouts.xml` file you defined all regions which you want to use in your them
 </themes>    
 ```
 
-`<regions>` : All regions will define in this tag.
+`<regions>` : All regions are defined in this tag.
     * `<unique_regionname>` : Define regions
 
 
@@ -278,9 +279,9 @@ In `layouts.xml` file you defined all regions which you want to use in your them
 
 #### Add blocks in regions
 
-In different bundles you can create any number of blocks for theme regions.
+A region consists of many blocks. You can define any number of blocks in 'layout.xml'
 
-1. Every bundle which share blocks & inline blocks with themes, thats need to create a 
+1. A sub configuration file is created for every bundle that is included in the layout
 sub configuration file. Here is the pattern for creating sub configuration file
     * `[bundlename]_layout.xml` : The file name starts with bundlename as prefix. Use lowercase letter for file name.
 
@@ -339,7 +340,7 @@ If you want to insert a block direct in theme template file, then you can use in
     </regions>
 </layout>    
 ```
-    `<inlineblocks>` : All regions will define in this tag.
+    `<inlineblocks>` : All regions are defined in this tag.
         * `<unique_inlineblock>` : Define your bundle inline blocks for theme.
 
 
