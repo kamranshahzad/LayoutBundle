@@ -430,6 +430,7 @@ class FrontHelper{
 ## Usefull links:
 
 1. [Concept behind LayoutBundle](http://kamranshahzad.github.io/blog/the-concept-behind-layoutbundle.html)
+1. [Create a simple theme using layoutbundle](http://kamranshahzad.github.io/blog/create-a-simple-theme-using-layoutbundle.html)
 
 
 ## Reporting an issue or feature request.
