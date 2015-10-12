@@ -30,6 +30,8 @@ LayoutBundle Provides the following features:
 8. Quick Guide (commands list)
 
 
+![alt text](https://github.com/kamranshahzad/kamranshahzad.github.io/blob/master/blog/images/layoutbundle-skeleton.jpg "Layout screenshot")
+
 ## Installation.
 
 Using composer
